@@ -10,6 +10,7 @@
         body { background-color: #f8f9fa; }
         .card { border-radius: 12px; border: none; }
         .card-header { border-radius: 12px 12px 0 0 !important; }
+        .table-responsive { max-height: 500px; overflow-y: auto; }
     </style>
 </head>
 <body>
@@ -21,10 +22,9 @@
     </div>
 </nav>
 
-<div class="container mt-5" style="max-width: 800px;">
+<div class="container mt-4 mb-5">
     
-    <!-- ฟอร์ม Login -->
-    <div id="loginSection" class="card shadow" style="max-width: 400px; margin: 0 auto;">
+    <div id="loginSection" class="card shadow mt-5" style="max-width: 400px; margin: 0 auto;">
         <div class="card-header bg-primary text-white text-center py-3">
             <h5 class="mb-0"><i class="bi bi-shield-lock-fill"></i> เข้าสู่ระบบผู้ดูแลระบบ</h5>
         </div>
@@ -44,80 +44,158 @@
         </div>
     </div>
 
-    <!-- ฟอร์มเพิ่มข้อมูล -->
-    <div id="adminSection" class="card shadow d-none mb-5">
-        <div class="card-header bg-success text-white py-3">
-            <h5 class="mb-0"><i class="bi bi-plus-circle-fill"></i> เพิ่มข้อมูล Best Practice</h5>
+    <div id="adminSection" class="d-none">
+        
+        <div class="card shadow mb-4">
+            <div class="card-header bg-success text-white py-3">
+                <h5 class="mb-0"><i class="bi bi-plus-circle-fill"></i> เพิ่มข้อมูล Best Practice</h5>
+            </div>
+            <div class="card-body p-4">
+                <form id="portfolioForm">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label fw-bold">หมวดหมู่ (Category) *</label>
+                            <select id="category" class="form-select border-success" required>
+                                <option value="">-- เลือกหมวดหมู่ --</option>
+                                <option value="Administration">ด้านการบริหารการจัดการศึกษาปฐมวัย (ผู้บริหาร)</option>
+                                <option value="Teaching">ด้านการจัดประสบการณ์การจัดการศึกษาปฐมวัย (ครูผู้สอน)</option>
+                                <option value="Supervision">ด้านนวัตกรรมการนิเทศการศึกษาปฐมวัย (ศึกษานิเทศก์/ผู้บริหาร/ครู)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label fw-bold">ชื่อโครงการ *</label>
+                            <textarea id="projectName" class="form-control" rows="2" required></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">ชื่อ-สกุลผู้จัดทำ *</label>
+                            <input type="text" id="fullName" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">ตำแหน่ง</label>
+                            <input type="text" id="position" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <label class="form-label">ชื่อสถานศึกษา *</label>
+                            <input type="text" id="schoolName" class="form-control" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">ปีการศึกษา *</label>
+                            <input type="text" id="academicYear" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="row bg-light p-3 rounded mt-2">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <label class="form-label text-danger"><i class="bi bi-youtube"></i> ลิงก์ YouTube</label>
+                            <input type="url" id="videoUrl" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-primary"><i class="bi bi-file-pdf-fill"></i> ลิงก์ PDF (Google Drive)</label>
+                            <input type="url" id="pdfUrl" class="form-control">
+                        </div>
+                    </div>
+                    <div class="mt-4 text-end">
+                        <button type="submit" class="btn btn-success px-5"><i class="bi bi-save2"></i> บันทึกข้อมูล</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="card-body p-4">
-            <form id="portfolioForm">
-                
-                <!-- แถวที่ 1: หมวดหมู่ และ ชื่อโครงการ -->
-                <div class="row">
-                    <div class="col-md-12 mb-3">
+
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white py-3">
+                <h5 class="mb-0"><i class="bi bi-table"></i> รายการผลงานทั้งหมด</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped mb-0 align-middle">
+                        <thead class="table-light sticky-top">
+                            <tr>
+                                <th>ชื่อโครงการ</th>
+                                <th>ผู้จัดทำ</th>
+                                <th>หมวดหมู่</th>
+                                <th>ปีการศึกษา</th>
+                                <th class="text-center">จัดการ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTableBody">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-dark">
+                <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square"></i> แก้ไขข้อมูล</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="editForm">
+                    <input type="hidden" id="editDocId">
+                    
+                    <div class="mb-3">
                         <label class="form-label fw-bold">หมวดหมู่ (Category) *</label>
-                        <select id="category" class="form-select border-success" required>
-                            <option value="">-- เลือกหมวดหมู่ --</option>
+                        <select id="editCategory" class="form-select" required>
                             <option value="Administration">ด้านการบริหารการจัดการศึกษาปฐมวัย (ผู้บริหาร)</option>
                             <option value="Teaching">ด้านการจัดประสบการณ์การจัดการศึกษาปฐมวัย (ครูผู้สอน)</option>
                             <option value="Supervision">ด้านนวัตกรรมการนิเทศการศึกษาปฐมวัย (ศึกษานิเทศก์/ผู้บริหาร/ครู)</option>
                         </select>
                     </div>
-                    <div class="col-md-12 mb-3">
+                    <div class="mb-3">
                         <label class="form-label fw-bold">ชื่อโครงการ *</label>
-                        <textarea id="projectName" class="form-control" rows="2" placeholder="เช่น โครงการสร้างและส่งเสริมความเป็นพลเมืองดี..." required></textarea>
+                        <textarea id="editProjectName" class="form-control" rows="2" required></textarea>
                     </div>
-                </div>
-
-                <!-- แถวที่ 2: ชื่อผู้จัดทำ และ ตำแหน่ง -->
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">ชื่อ-สกุลผู้จัดทำ *</label>
-                        <input type="text" id="fullName" class="form-control" required>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">ชื่อ-สกุลผู้จัดทำ *</label>
+                            <input type="text" id="editFullName" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">ตำแหน่ง</label>
+                            <input type="text" id="editPosition" class="form-control">
+                        </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">ตำแหน่ง</label>
-                        <input type="text" id="position" class="form-control" placeholder="เช่น ผู้อำนวยการ, ครู วิทยฐานะ...">
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <label class="form-label">ชื่อสถานศึกษา *</label>
+                            <input type="text" id="editSchoolName" class="form-control" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">ปีการศึกษา *</label>
+                            <input type="text" id="editAcademicYear" class="form-control" required>
+                        </div>
                     </div>
-                </div>
-
-                <!-- แถวที่ 3: สถานศึกษา และ ปีการศึกษา -->
-                <div class="row">
-                    <div class="col-md-8 mb-3">
-                        <label class="form-label">ชื่อสถานศึกษา *</label>
-                        <input type="text" id="schoolName" class="form-control" placeholder="เช่น โรงเรียนบ้านตะโละสะมีแล" required>
+                    <div class="mb-3">
+                        <label class="form-label text-danger">ลิงก์ YouTube</label>
+                        <input type="url" id="editVideoUrl" class="form-control">
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">ปีการศึกษา *</label>
-                        <input type="text" id="academicYear" class="form-control" placeholder="เช่น 2566" required>
+                    <div class="mb-3">
+                        <label class="form-label text-primary">ลิงก์ PDF</label>
+                        <input type="url" id="editPdfUrl" class="form-control">
                     </div>
-                </div>
-
-                <!-- แถวที่ 4: ลิงก์ไฟล์แนบ -->
-                <div class="row bg-light p-3 rounded mt-2">
-                    <div class="col-md-6 mb-3 mb-md-0">
-                        <label class="form-label text-danger"><i class="bi bi-youtube"></i> ลิงก์ YouTube</label>
-                        <input type="url" id="videoUrl" class="form-control" placeholder="https://www.youtube.com/watch?v=...">
+                    <div class="text-end mt-4">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                        <button type="submit" class="btn btn-warning"><i class="bi bi-save"></i> บันทึกการแก้ไข</button>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label text-primary"><i class="bi bi-file-pdf-fill"></i> ลิงก์ PDF (Google Drive)</label>
-                        <input type="url" id="pdfUrl" class="form-control" placeholder="https://drive.google.com/file/d/...">
-                    </div>
-                </div>
-
-                <div class="mt-4 text-end">
-                    <button type="reset" class="btn btn-secondary me-2">ล้างฟอร์ม</button>
-                    <button type="submit" class="btn btn-success px-5"><i class="bi bi-save2"></i> บันทึกข้อมูล</button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    // สังเกตว่าเราเพิ่ม doc, deleteDoc, updateDoc, onSnapshot, query, orderBy เข้ามา
+    import { getFirestore, collection, addDoc, doc, deleteDoc, updateDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     // 🔴 วาง firebaseConfig ของคุณตรงนี้ 🔴
     const firebaseConfig = {
@@ -136,12 +214,18 @@
     const loginSection = document.getElementById('loginSection');
     const adminSection = document.getElementById('adminSection');
     const btnLogout = document.getElementById('btnLogout');
+    
+    // ตัวแปรสำหรับเก็บข้อมูลชั่วคราวเพื่อนำไปแสดงใน Modal แก้ไข
+    let portfoliosData = {}; 
+    const editModal = new bootstrap.Modal(document.getElementById('editModal'));
 
+    // 1. จัดการสถานะ Login
     onAuthStateChanged(auth, (user) => {
         if (user) {
             loginSection.classList.add('d-none');
             adminSection.classList.remove('d-none');
             btnLogout.classList.remove('d-none');
+            loadTableData(); // เมื่อล็อกอินสำเร็จ ให้โหลดข้อมูลลงตาราง
         } else {
             loginSection.classList.remove('d-none');
             adminSection.classList.add('d-none');
@@ -149,24 +233,20 @@
         }
     });
 
+    // 2. ระบบ Login & Logout
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
         try {
-            await signInWithEmailAndPassword(auth, email, password);
-            document.getElementById('loginError').innerText = '';
+            await signInWithEmailAndPassword(auth, document.getElementById('loginEmail').value, document.getElementById('loginPassword').value);
         } catch (error) {
             document.getElementById('loginError').innerText = 'อีเมลหรือรหัสผ่านไม่ถูกต้อง';
         }
     });
-
     btnLogout.addEventListener('click', () => signOut(auth));
 
+    // 3. ระบบเพิ่มข้อมูล (Create)
     document.getElementById('portfolioForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        
-        // เพิ่มฟิลด์ใหม่เข้าไปใน Object
         const newData = {
             category: document.getElementById('category').value,
             projectName: document.getElementById('projectName').value,
@@ -180,18 +260,101 @@
         };
 
         try {
-            const btn = e.target.querySelector('button[type="submit"]');
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> กำลังบันทึก...';
-            btn.disabled = true;
-
             await addDoc(collection(db, "portfolios"), newData);
-            alert("บันทึกข้อมูลสำเร็จ!");
+            alert("เพิ่มข้อมูลสำเร็จ!");
             e.target.reset();
-            
-            btn.innerHTML = '<i class="bi bi-save2"></i> บันทึกข้อมูล';
-            btn.disabled = false;
         } catch (error) {
             alert("เกิดข้อผิดพลาด: " + error.message);
+        }
+    });
+
+    // 4. ระบบดึงข้อมูลมาแสดงในตาราง (Read)
+    function loadTableData() {
+        const q = query(collection(db, "portfolios"), orderBy("createdAt", "desc"));
+        onSnapshot(q, (snapshot) => {
+            const tbody = document.getElementById('dataTableBody');
+            tbody.innerHTML = '';
+            portfoliosData = {}; // ล้างข้อมูลเก่า
+
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                const id = doc.id; // ไอดีของข้อมูลใน Firestore
+                portfoliosData[id] = data; // เก็บข้อมูลลง object เผื่อดึงไปใช้ตอนแก้ไข
+
+                // ตัดข้อความชื่อโครงการถ้ายาวเกินไป
+                let shortProjectName = data.projectName || '';
+                if(shortProjectName.length > 50) shortProjectName = shortProjectName.substring(0, 50) + '...';
+
+                // จัดหน้าตาหมวดหมู่ให้สั้นลง
+                let catBadge = '';
+                if(data.category === 'Administration') catBadge = '<span class="badge bg-primary">บริหาร</span>';
+                if(data.category === 'Teaching') catBadge = '<span class="badge bg-success">สอน</span>';
+                if(data.category === 'Supervision') catBadge = '<span class="badge bg-warning text-dark">นิเทศ</span>';
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><small class="fw-bold text-dark">${shortProjectName}</small></td>
+                    <td><small>${data.fullName}</small></td>
+                    <td>${catBadge}</td>
+                    <td><small>${data.academicYear}</small></td>
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-outline-warning me-1" onclick="openEditModal('${id}')" title="แก้ไข"><i class="bi bi-pencil"></i></button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteData('${id}')" title="ลบ"><i class="bi bi-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        });
+    }
+
+    // 5. ระบบลบข้อมูล (Delete) - ต้องประกาศตัวแปรผูกกับ window เพื่อให้ปุ่ม HTML เรียกใช้งานได้
+    window.deleteData = async function(id) {
+        if(confirm('คุณแน่ใจหรือไม่ที่จะลบผลงานนี้? (ไม่สามารถกู้คืนได้)')) {
+            try {
+                await deleteDoc(doc(db, "portfolios", id));
+            } catch (error) {
+                alert("เกิดข้อผิดพลาดในการลบ: " + error.message);
+            }
+        }
+    }
+
+    // 6. ฟังก์ชันเปิด Modal พร้อมดึงข้อมูลเก่ามาใส่ฟอร์ม
+    window.openEditModal = function(id) {
+        const data = portfoliosData[id];
+        document.getElementById('editDocId').value = id; // แอบเก็บไอดีไว้
+        document.getElementById('editCategory').value = data.category;
+        document.getElementById('editProjectName').value = data.projectName;
+        document.getElementById('editFullName').value = data.fullName;
+        document.getElementById('editPosition').value = data.position;
+        document.getElementById('editSchoolName').value = data.schoolName;
+        document.getElementById('editAcademicYear').value = data.academicYear;
+        document.getElementById('editVideoUrl').value = data.videoUrl || '';
+        document.getElementById('editPdfUrl').value = data.pdfUrl || '';
+        
+        editModal.show();
+    }
+
+    // 7. ระบบบันทึกการแก้ไข (Update)
+    document.getElementById('editForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('editDocId').value;
+        const updatedData = {
+            category: document.getElementById('editCategory').value,
+            projectName: document.getElementById('editProjectName').value,
+            fullName: document.getElementById('editFullName').value,
+            position: document.getElementById('editPosition').value,
+            schoolName: document.getElementById('editSchoolName').value,
+            academicYear: document.getElementById('editAcademicYear').value,
+            videoUrl: document.getElementById('editVideoUrl').value,
+            pdfUrl: document.getElementById('editPdfUrl').value
+        };
+
+        try {
+            await updateDoc(doc(db, "portfolios", id), updatedData);
+            editModal.hide();
+            // ไม่ต้อง alert ก็ได้ เพราะข้อมูลในตารางจะอัปเดตแบบ Real-time ทันทีที่บันทึกเสร็จ
+        } catch (error) {
+            alert("เกิดข้อผิดพลาดในการแก้ไข: " + error.message);
         }
     });
 </script>
