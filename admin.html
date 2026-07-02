@@ -3,76 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>จัดการระบบ - Admin</title>
+    <title>ระบบจัดการ Best Practice - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body { background-color: #f8f9fa; }
+        .card { border-radius: 12px; border: none; }
+        .card-header { border-radius: 12px 12px 0 0 !important; }
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
-<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-dark bg-dark shadow-sm">
     <div class="container">
-        <a class="navbar-brand" href="index.html">⬅️ กลับหน้าหลัก</a>
-        <button id="btnLogout" class="btn btn-danger btn-sm d-none">ออกจากระบบ</button>
+        <a class="navbar-brand" href="index.html"><i class="bi bi-arrow-left-circle"></i> กลับหน้าเว็บไซต์</a>
+        <button id="btnLogout" class="btn btn-outline-danger btn-sm d-none"><i class="bi bi-box-arrow-right"></i> ออกจากระบบ</button>
     </div>
 </nav>
 
-<div class="container mt-5" style="max-width: 600px;">
+<div class="container mt-5" style="max-width: 800px;">
     
-    <div id="loginSection" class="card shadow">
-        <div class="card-header bg-primary text-white">เข้าสู่ระบบสำหรับแอดมิน</div>
-        <div class="card-body">
+    <!-- ฟอร์ม Login -->
+    <div id="loginSection" class="card shadow" style="max-width: 400px; margin: 0 auto;">
+        <div class="card-header bg-primary text-white text-center py-3">
+            <h5 class="mb-0"><i class="bi bi-shield-lock-fill"></i> เข้าสู่ระบบผู้ดูแลระบบ</h5>
+        </div>
+        <div class="card-body p-4">
             <form id="loginForm">
                 <div class="mb-3">
-                    <label>Email</label>
+                    <label class="form-label">Email</label>
                     <input type="email" id="loginEmail" class="form-control" required>
                 </div>
-                <div class="mb-3">
-                    <label>Password</label>
+                <div class="mb-4">
+                    <label class="form-label">Password</label>
                     <input type="password" id="loginPassword" class="form-control" required>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Login</button>
-                <div id="loginError" class="text-danger mt-2 text-center"></div>
+                <button type="submit" class="btn btn-primary w-100 py-2">เข้าสู่ระบบ</button>
+                <div id="loginError" class="text-danger mt-3 text-center small"></div>
             </form>
         </div>
     </div>
 
-    <div id="adminSection" class="card shadow d-none">
-        <div class="card-header bg-success text-white">➕ เพิ่มข้อมูล Portfolio</div>
-        <div class="card-body">
+    <!-- ฟอร์มเพิ่มข้อมูล -->
+    <div id="adminSection" class="card shadow d-none mb-5">
+        <div class="card-header bg-success text-white py-3">
+            <h5 class="mb-0"><i class="bi bi-plus-circle-fill"></i> เพิ่มข้อมูล Best Practice</h5>
+        </div>
+        <div class="card-body p-4">
             <form id="portfolioForm">
-                <div class="mb-3">
-                    <label>ชื่อ-นามสกุล</label>
-                    <input type="text" id="fullName" class="form-control" required>
+                
+                <!-- แถวที่ 1: หมวดหมู่ และ ชื่อโครงการ -->
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label fw-bold">หมวดหมู่ (Category) *</label>
+                        <select id="category" class="form-select border-success" required>
+                            <option value="">-- เลือกหมวดหมู่ --</option>
+                            <option value="Administration">ด้านการบริหารการจัดการศึกษาปฐมวัย (ผู้บริหาร)</option>
+                            <option value="Teaching">ด้านการจัดประสบการณ์การจัดการศึกษาปฐมวัย (ครูผู้สอน)</option>
+                            <option value="Supervision">ด้านนวัตกรรมการนิเทศการศึกษาปฐมวัย (ศึกษานิเทศก์/ผู้บริหาร/ครู)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label fw-bold">ชื่อโครงการ *</label>
+                        <textarea id="projectName" class="form-control" rows="2" placeholder="เช่น โครงการสร้างและส่งเสริมความเป็นพลเมืองดี..." required></textarea>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label>หมวดหมู่ (Category)</label>
-                    <select id="category" class="form-select" required>
-                        <option value="">-- เลือกหมวดหมู่ --</option>
-                        <option value="Administration">Administration (บริหาร)</option>
-                        <option value="Teaching">Teaching (การสอน)</option>
-                        <option value="Supervision">Supervision (นิเทศ)</option>
-                    </select>
+
+                <!-- แถวที่ 2: ชื่อผู้จัดทำ และ ตำแหน่ง -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">ชื่อ-สกุลผู้จัดทำ *</label>
+                        <input type="text" id="fullName" class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">ตำแหน่ง</label>
+                        <input type="text" id="position" class="form-control" placeholder="เช่น ผู้อำนวยการ, ครู วิทยฐานะ...">
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label>ตำแหน่ง</label>
-                    <input type="text" id="position" class="form-control" required>
+
+                <!-- แถวที่ 3: สถานศึกษา และ ปีการศึกษา -->
+                <div class="row">
+                    <div class="col-md-8 mb-3">
+                        <label class="form-label">ชื่อสถานศึกษา *</label>
+                        <input type="text" id="schoolName" class="form-control" placeholder="เช่น โรงเรียนบ้านตะโละสะมีแล" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">ปีการศึกษา *</label>
+                        <input type="text" id="academicYear" class="form-control" placeholder="เช่น 2566" required>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label>ปีการศึกษา</label>
-                    <input type="text" id="academicYear" class="form-control" required>
+
+                <!-- แถวที่ 4: ลิงก์ไฟล์แนบ -->
+                <div class="row bg-light p-3 rounded mt-2">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                        <label class="form-label text-danger"><i class="bi bi-youtube"></i> ลิงก์ YouTube</label>
+                        <input type="url" id="videoUrl" class="form-control" placeholder="https://www.youtube.com/watch?v=...">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-primary"><i class="bi bi-file-pdf-fill"></i> ลิงก์ PDF (Google Drive)</label>
+                        <input type="url" id="pdfUrl" class="form-control" placeholder="https://drive.google.com/file/d/...">
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label>ลิงก์ YouTube</label>
-                    <input type="url" id="videoUrl" class="form-control" placeholder="https://www.youtube.com/watch?v=...">
+
+                <div class="mt-4 text-end">
+                    <button type="reset" class="btn btn-secondary me-2">ล้างฟอร์ม</button>
+                    <button type="submit" class="btn btn-success px-5"><i class="bi bi-save2"></i> บันทึกข้อมูล</button>
                 </div>
-                <div class="mb-3">
-                    <label>ลิงก์ Google Drive PDF</label>
-                    <input type="url" id="pdfUrl" class="form-control" placeholder="https://drive.google.com/file/d/.../view">
-                </div>
-                <button type="submit" class="btn btn-success w-100">บันทึกข้อมูล</button>
             </form>
         </div>
     </div>
-
 </div>
 
 <script type="module">
@@ -80,7 +119,7 @@
     import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    // 🔴 นำ Firebase Config ของคุณมาใส่ตรงนี้ (ชุดเดียวกับ index.html) 🔴
+    // 🔴 วาง firebaseConfig ของคุณตรงนี้ 🔴
     const firebaseConfig = {
 		  apiKey: "AIzaSyCKtwVNT67_OWppZAy42j5qXFtiArhBDx0",
 		  authDomain: "best-practice-ayamoe.firebaseapp.com",
@@ -94,26 +133,22 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // การจัดการหน้าจอตามสถานะ Login
     const loginSection = document.getElementById('loginSection');
     const adminSection = document.getElementById('adminSection');
     const btnLogout = document.getElementById('btnLogout');
 
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            // ล็อกอินแล้ว แสดงฟอร์มแอดมิน ซ่อนฟอร์มล็อกอิน
             loginSection.classList.add('d-none');
             adminSection.classList.remove('d-none');
             btnLogout.classList.remove('d-none');
         } else {
-            // ยังไม่ล็อกอิน
             loginSection.classList.remove('d-none');
             adminSection.classList.add('d-none');
             btnLogout.classList.add('d-none');
         }
     });
 
-    // ระบบ Login
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('loginEmail').value;
@@ -126,19 +161,18 @@
         }
     });
 
-    // ระบบ Logout
-    btnLogout.addEventListener('click', () => {
-        signOut(auth);
-    });
+    btnLogout.addEventListener('click', () => signOut(auth));
 
-    // ระบบบันทึกข้อมูลลง Firestore
     document.getElementById('portfolioForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
+        // เพิ่มฟิลด์ใหม่เข้าไปใน Object
         const newData = {
-            fullName: document.getElementById('fullName').value,
             category: document.getElementById('category').value,
+            projectName: document.getElementById('projectName').value,
+            fullName: document.getElementById('fullName').value,
             position: document.getElementById('position').value,
+            schoolName: document.getElementById('schoolName').value,
             academicYear: document.getElementById('academicYear').value,
             videoUrl: document.getElementById('videoUrl').value,
             pdfUrl: document.getElementById('pdfUrl').value,
@@ -146,11 +180,18 @@
         };
 
         try {
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> กำลังบันทึก...';
+            btn.disabled = true;
+
             await addDoc(collection(db, "portfolios"), newData);
-            alert("บันทึกข้อมูลเรียบร้อยแล้ว!");
-            document.getElementById('portfolioForm').reset();
+            alert("บันทึกข้อมูลสำเร็จ!");
+            e.target.reset();
+            
+            btn.innerHTML = '<i class="bi bi-save2"></i> บันทึกข้อมูล';
+            btn.disabled = false;
         } catch (error) {
-            alert("เกิดข้อผิดพลาดในการบันทึก: " + error.message);
+            alert("เกิดข้อผิดพลาด: " + error.message);
         }
     });
 </script>
